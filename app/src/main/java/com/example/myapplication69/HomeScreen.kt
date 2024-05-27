@@ -34,26 +34,42 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.myapplication69.ui.theme.MyBlack
 import com.example.myapplication69.ui.theme.MyGrey
+import com.example.myapplication69.ui.theme.Purple40
+import com.example.myapplication69.ui.theme.Purple80
+import com.example.myapplication69.ui.theme.backgroundGradient
+import com.example.myapplication69.ui.theme.darkGrey
+import com.example.myapplication69.ui.theme.deepBlue
+import com.example.myapplication69.ui.theme.forestGreen
+import com.example.myapplication69.ui.theme.lightGrey
+import com.example.myapplication69.ui.theme.myRed
+import com.example.myapplication69.ui.theme.myYellow
+import com.example.myapplication69.ui.theme.orangeGradient
 import com.example.myapplication69.ui.theme.outfitFontFamily
+import com.example.myapplication69.ui.theme.purpleGradient
+import com.example.myapplication69.ui.theme.royalPurple
+import com.example.myapplication69.ui.theme.sunsetOrange
 
 data class FeaturedItemData(
     val bigTxt: String,
     val smlTxt: String,
     val img: Int,
-    val color: Color
+    val color: Brush,
+    val btnColor: Color
 )
 
 @Composable
 fun HomeScreen() {
     Box(
         Modifier
-            .background(MyBlack)
+            .background(backgroundGradient)
             .fillMaxSize()
     ) {
         Column(
@@ -91,14 +107,14 @@ fun GreetingSec(name: String = "Sagnik") {
                     fontSize = 22.sp,
                     fontFamily = outfitFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = lightGrey
                 )
                 Text(
                     text = " $name",
                     fontSize = 30.sp,
                     fontFamily = outfitFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Yellow
+                    color = myYellow
                 )
             }
             Text(
@@ -106,7 +122,7 @@ fun GreetingSec(name: String = "Sagnik") {
                 fontSize = 18.sp,
                 fontFamily = outfitFontFamily,
                 fontWeight = FontWeight.Normal,
-                color = Color.White
+                color = lightGrey
             )
         }
         Image(
@@ -135,12 +151,12 @@ fun ChipSection(
                     }
                     .clip(RoundedCornerShape(10.dp))
                     .background(
-                        if (selectedChipIndex == index) Color.Cyan else Color.LightGray
+                        if (selectedChipIndex == index) myRed else sunsetOrange
                     )
             ) {
                 Text(
                     text = chips[index],
-                    color = if (selectedChipIndex == index) Color.DarkGray else Color.White,
+                    color = if (selectedChipIndex == index) Color.White else lightGrey,
                     fontSize = 18.sp,
                     fontFamily = outfitFontFamily,
                     fontWeight = FontWeight.Light,
@@ -152,7 +168,7 @@ fun ChipSection(
 }
 
 @Composable
-fun Current(color: Color = Color.Red) {
+fun Current() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -163,7 +179,7 @@ fun Current(color: Color = Color.Red) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MyGrey)
+                .background(purpleGradient)
                 .padding(20.dp, 30.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -171,16 +187,17 @@ fun Current(color: Color = Color.Red) {
             Column() {
                 Text(
                     text = "Daily Thought", fontSize = 22.sp, fontFamily = outfitFontFamily,
-                    fontWeight = FontWeight.Bold, color = Color.White
+                    fontWeight = FontWeight.Bold, color = lightGrey
                 )
                 Text(
                     text = "Meditation • 3-10 min", fontSize = 18.sp, fontFamily = outfitFontFamily,
-                    fontWeight = FontWeight.Normal, color = Color.White
+                    fontWeight = FontWeight.Normal, color = lightGrey
                 )
             }
             Image(
                 painter = painterResource(id = R.drawable.playbutton), contentDescription = "",
-                Modifier.size(40.dp)
+                Modifier.size(40.dp),
+                colorFilter = ColorFilter.tint(Color.White),
             )
         }
     }
@@ -189,17 +206,17 @@ fun Current(color: Color = Color.Red) {
 @Composable
 fun FeaturedSec() {
     val featuredItems = listOf(
-        FeaturedItemData("Sleep", "3-10 min", R.drawable.headphone, Color.Yellow),
-        FeaturedItemData("Relax", "5-15 min", R.drawable.headphone, Color.Cyan),
-        FeaturedItemData("Focus", "10-20 min", R.drawable.headphone, Color.Cyan),
-        FeaturedItemData("Energy", "5-10 min", R.drawable.headphone, Color.Yellow),
-        FeaturedItemData("Calm", "15-20 min", R.drawable.headphone, Color.Yellow),
-        FeaturedItemData("Joy", "10-15 min", R.drawable.headphone, Color.Cyan)
+        FeaturedItemData("Sleep", "3-10 min", R.drawable.headphone, orangeGradient, lightGrey),
+        FeaturedItemData("Relax", "5-15 min", R.drawable.headphone, purpleGradient, lightGrey),
+        FeaturedItemData("Focus", "10-20 min", R.drawable.headphone, purpleGradient, lightGrey),
+        FeaturedItemData("Energy", "5-10 min", R.drawable.headphone, orangeGradient, lightGrey),
+        FeaturedItemData("Calm", "15-20 min", R.drawable.headphone, orangeGradient, lightGrey),
+        FeaturedItemData("Joy", "10-15 min", R.drawable.headphone, purpleGradient, lightGrey)
     )
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth().padding(bottom = 50.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
@@ -225,7 +242,8 @@ fun FeaturedSec() {
                     bigTxt = item.bigTxt,
                     smlTxt = item.smlTxt,
                     img = item.img,
-                    color = item.color
+                    color = item.color,
+                    btnColor = item.btnColor
                 )
             }
         }
@@ -233,7 +251,7 @@ fun FeaturedSec() {
 }
 
 @Composable
-fun FeaturedItem(bigTxt: String, smlTxt: String, img: Int, color: Color) {
+fun FeaturedItem(bigTxt: String, smlTxt: String, img: Int, color: Brush,btnColor:Color) {
     Column(
         modifier = Modifier.padding(10.dp)
     ) {
@@ -250,14 +268,14 @@ fun FeaturedItem(bigTxt: String, smlTxt: String, img: Int, color: Color) {
             ) {
                 Text(
                     text = bigTxt,
-                    color = MyGrey,
+                    color = lightGrey,
                     fontFamily = outfitFontFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp
                 )
                 Text(
                     text = smlTxt,
-                    color = MyGrey,
+                    color = Color.White,
                     fontFamily = outfitFontFamily,
                     fontWeight = FontWeight.Light,
                     fontSize = 18.sp
@@ -271,14 +289,17 @@ fun FeaturedItem(bigTxt: String, smlTxt: String, img: Int, color: Color) {
                 ) {
                     Button(
                         onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(MyGrey),
+                        colors = ButtonDefaults.buttonColors(btnColor),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Text(text = "Start", color = Color.White)
+                        Text(text = "Start", color = darkGrey, fontSize = 16.sp,
+                            fontFamily = outfitFontFamily,
+                            fontWeight = FontWeight.Bold)
                     }
                     Image(
                         painter = painterResource(id = img), contentDescription = "",
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(32.dp),
+                        colorFilter = ColorFilter.tint(Color.White),
                     )
                 }
             }
@@ -300,19 +321,20 @@ fun BottomNavBar() {
            modifier = Modifier.padding(20.dp,10.dp)
        ){
            BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-               Icon(painter = painterResource(id = R.drawable.headphone), contentDescription = "Home",
+               Icon(painter = painterResource(id = R.drawable.home), contentDescription = "Home",
+                   modifier = Modifier.size(40.dp),
+                   tint = lightGrey)
+           })
+           BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
+               Icon(painter = painterResource(id = R.drawable.heart), contentDescription = "Home",
                    modifier = Modifier.size(40.dp))
            })
            BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-               Icon(painter = painterResource(id = R.drawable.headphone), contentDescription = "Home",
+               Icon(painter = painterResource(id = R.drawable.music), contentDescription = "Home",
                    modifier = Modifier.size(40.dp))
            })
            BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-               Icon(painter = painterResource(id = R.drawable.headphone), contentDescription = "Home",
-                   modifier = Modifier.size(40.dp))
-           })
-           BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-               Icon(painter = painterResource(id = R.drawable.headphone), contentDescription = "Home",
+               Icon(painter = painterResource(id = R.drawable.setting), contentDescription = "Home",
                    modifier = Modifier.size(40.dp))
            })
        }
